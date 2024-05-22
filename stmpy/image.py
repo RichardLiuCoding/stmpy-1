@@ -49,7 +49,7 @@ def saturate(level_low=0, level_high=None, im=None):
         image.set_clim(c_low, c_high)
 
 
-def write_animation(data, fileName, saturation=2, clims=(0,1), cmap=None,
+def write_animation(data, fileName, saturation=2, clims=(0,1), cmap=None, scale=None,
                     label=None, label_caption='meV', speed=8, zoom=1, **kwargs):
     ''' Create a movie from a 3D data set and save it to the path specified. Intended
     for visualising DOS maps and QPI data. Iterates through the first index in
@@ -134,6 +134,8 @@ def write_animation(data, fileName, saturation=2, clims=(0,1), cmap=None,
                 plt.clim(clims)
         if label is not None:
             tx.set_text('{:2.1f} {:}'.format(label[i], label_caption))
+        if scale is not None:
+            add_scale_bar(length=scale['length'], imgsize=scale['imgsize'], imgpixels=scale['imgpixels'],ax=im)
         return [im]
     fig.tight_layout()
     ani = FuncAnimation(fig, animate, init_func=init, frames=data.shape[0])
